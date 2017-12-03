@@ -82,6 +82,7 @@ func main() {
 	}
 
 	fmt.Printf("最多耗费时间%d", maxtime)
+	fmt.Println()
 }
 
 //机器数大于待分配作业数
@@ -100,7 +101,7 @@ func setwork2(t Works, n int, nmac int) int {
 	mi := 0
 	for i = 0; i < n; i++ {
 		mi = min(nmac)
-		fmt.Printf("%d,时间和最小的机器号为%d.时间和为%d：\n", i, mi, s[mi])
+		fmt.Printf("%d,时间和最小的机器号为%d.时间和为%d：\n", i+1, mi, s[mi])
 		s[mi] = s[mi] + t.W[i]
 	}
 	ma := max(s, nmac)

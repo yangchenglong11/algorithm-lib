@@ -34,7 +34,7 @@ import (
 	"math"
 )
 
-const QUEEN = 4
+const QUEEN = 5
 const INITIAL = -10000
 
 var a [QUEEN]int //一维数组表示棋盘

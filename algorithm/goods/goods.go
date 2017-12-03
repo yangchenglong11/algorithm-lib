@@ -68,10 +68,9 @@ func Greedy(g []Goods, good_num int, content int) {
 		if content > g[i].weight {
 			content -= g[i].weight
 			g[i].load = 1
-		} else if content > 0 { //如果背包不足以装下整个物品
-			g[i].load = float64(content / g[i].weight) //计算物品装入背包的部分
-			content = 0                                //背包容量置0
-
+		} else if content > 0 {                        // 如果背包不足以装下整个物品
+			g[i].load = float64(content / g[i].weight) // 计算物品装入背包的部分
+			content = 0                                // 背包容量置0
 		}
 	}
 }
@@ -111,8 +110,8 @@ func main() {
 
 		total_value += (Go.G[i].value * int(Go.G[i].load))   //装入背包的物品总价值
 		total_weight += (Go.G[i].weight * int(Go.G[i].load)) //装入背包的物品总重量
-		fmt.Println("weight: ", Go.G[i].weight, "  ", "value: ", Go.G[i].value, "  ", "the value per weight of good: ", Go.G[i].ValPerWei, "  the part of goods: ", Go.G[i].load)
-
+		fmt.Println("weight: ", Go.G[i].weight, "  ", "value: ", Go.G[i].value, "  ",
+			"\nthe value per weight of good: ", Go.G[i].ValPerWei, "  the part of goods: ", Go.G[i].load)
 	}
 
 	fmt.Println("the volum of bag is: ", bagvol)

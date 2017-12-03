@@ -31,22 +31,78 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"sort"
 	"time"
 )
 
+type Works struct {
+	W []int
+}
+
+func (w *Works) Len() int {
+	return len(w.W)
+}
+
+func (w *Works) Swap(i, j int) {
+	w.W[i], w.W[j] = w.W[j], w.W[i]
+}
+
+func (w *Works) Less(i, j int) bool {
+	return w.W[i] > w.W[j]
+}
+
 func main() {
-	arr01 := []int{34, 45, 3, 6, 76, 34, 46, 809, 92, 82432,3344, 4543, 33, 6432, 76432, 3234, 426, 80439, 4392, 84}
+	var (
+		num   int
+		arr01 []int
+		sys   Works
+	)
+	fmt.Println("Please input the sum of the number:")
+	fmt.Scanf("%d", &num)
 
-	fmt.Print("排序前")
-	fmt.Println(arr01)
+	arr01 = make([]int, num)
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < num; i++ {
+		arr01[i] = r.Intn(num)
+	}
+	sys.W = arr01
 
-	now:=time.Now()
-
-	mergeSort(arr01, 0, len(arr01)-1)
-	finish:=time.Since(now)
-	fmt.Print("排序后")
-	fmt.Println(arr01)
+	now1 := time.Now()
+	mergeSort1(arr01, 0, len(arr01)-1)
+	finish := time.Since(now1)
+	fmt.Print("mergeSort1:")
 	fmt.Println(finish)
+
+	now2 := time.Now()
+	mergeSort2(arr01, 0, len(arr01)-1)
+	finish2 := time.Since(now2)
+	fmt.Print("mergeSort2:")
+	fmt.Println(finish2)
+
+	s_now := time.Now()
+	sort.Sort(&sys)
+	s_finish := time.Since(s_now)
+	fmt.Print("System sort:")
+	fmt.Println(s_finish)
+}
+
+func mergeSort1(arr []int, low, high int) {
+	if low < high {
+		mid := (low + high) / 2
+		mergeSort1(arr, low, mid)
+		mergeSort1(arr, mid+1, high)
+		merge1(arr, low, mid, high)
+	}
+}
+
+func mergeSort2(arr []int, low, high int) {
+	if low < high {
+		mid := (low + high) / 2
+		mergeSort2(arr, low, mid)
+		mergeSort2(arr, mid+1, high)
+		merge2(arr, low, mid, high)
+	}
 }
 
 func merge1(arr []int, low, mid, high int) {
@@ -57,13 +113,13 @@ func merge1(arr []int, low, mid, high int) {
 	for i := 0; i < leftLen; i++ {
 		arrLeft[i] = arr[low+i]
 	}
-	arrLeft[leftLen] = 99999 //哨兵牌
+	arrLeft[leftLen] = 999999999 //哨兵牌
 
 	arrRight := make([]int, rightLen+1)
 	for j := 0; j < rightLen; j++ {
 		arrRight[j] = arr[mid+j+1]
 	}
-	arrRight[rightLen] = 99999 //哨兵牌
+	arrRight[rightLen] = 999999999 //哨兵牌
 
 	i, j := 0, 0
 	for k := low; k <= high; k++ {
@@ -74,15 +130,6 @@ func merge1(arr []int, low, mid, high int) {
 			arr[k] = arrRight[j]
 			j++
 		}
-	}
-}
-
-func mergeSort(arr []int, low, high int) {
-	if low < high {
-		mid := (low + high) / 2
-		mergeSort(arr, low, mid)
-		mergeSort(arr, mid+1, high)
-		merge2(arr, low, mid, high)
 	}
 }
 
