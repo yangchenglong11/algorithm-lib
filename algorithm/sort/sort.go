@@ -36,27 +36,11 @@ import (
 	"time"
 )
 
-type Works struct {
-	W []int
-}
-
-func (w *Works) Len() int {
-	return len(w.W)
-}
-
-func (w *Works) Swap(i, j int) {
-	w.W[i], w.W[j] = w.W[j], w.W[i]
-}
-
-func (w *Works) Less(i, j int) bool {
-	return w.W[i] > w.W[j]
-}
-
 func main() {
 	var (
 		num   int
 		arr01 []int
-		sys   Works
+		sys   []int
 	)
 	fmt.Println("Please input the sum of the number:")
 	fmt.Scanf("%d", &num)
@@ -66,7 +50,7 @@ func main() {
 	for i := 0; i < num; i++ {
 		arr01[i] = r.Intn(num)
 	}
-	sys.W = arr01
+	sys = arr01
 
 	now1 := time.Now()
 	mergeSort1(arr01, 0, len(arr01)-1)
@@ -81,7 +65,7 @@ func main() {
 	fmt.Println(finish2)
 
 	s_now := time.Now()
-	sort.Sort(&sys)
+	sort.Ints(sys)
 	s_finish := time.Since(s_now)
 	fmt.Print("System sort:")
 	fmt.Println(s_finish)

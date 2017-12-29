@@ -36,23 +36,8 @@ import (
 
 var (
 	s     []int //每台机器当前已分配的作业总耗时
-	time  Works
+	time  []int
 )
-
-type Works struct {
-	W []int
-}
-func (w *Works) Len() int {
-	return len(w.W)
-}
-
-func (w *Works) Swap(i, j int) {
-	w.W[i], w.W[j] = w.W[j], w.W[i]
-}
-
-func (w *Works) Less(i, j int) bool {
-	return w.W[i] > w.W[j]
-}
 
 func main() {
 	var (
@@ -64,16 +49,15 @@ func main() {
 	fmt.Println("请输入机器总数,作业总数")
 	fmt.Scanf("%d%d", &NMac, &NWork)
 	s = make([]int, NMac)
-	time = Works{
-		W:make([]int,NWork),
-	}
+	time = make([]int,NWork)
+
 
 	fmt.Println("请输入各作业用时")
 	for i := 0; i < NWork; i++ {
-		fmt.Scanf("%d", &time.W[i])
+		fmt.Scanf("%d", &time[i])
 	}
 
-	sort.Sort(&time)
+	sort.Ints(time)
 
 	if NMac >= NWork {
 		maxtime = setwork1(time, NWork, NWork)
@@ -86,23 +70,23 @@ func main() {
 }
 
 //机器数大于待分配作业数
-func setwork1(t Works, n int, nwork int) int {
+func setwork1(t []int, n int, nwork int) int {
 	var i int
 	for i = 0; i < n; i++ {
-		s[i] = t.W[i]
+		s[i] = t[i]
 	}
 	ma := max(s, nwork)
 	return ma
 }
 
 // 机器数小于待分配作业数
-func setwork2(t Works, n int, nmac int) int {
+func setwork2(t []int, n int, nmac int) int {
 	var i int
 	mi := 0
 	for i = 0; i < n; i++ {
 		mi = min(nmac)
 		fmt.Printf("%d,时间和最小的机器号为%d.时间和为%d：\n", i+1, mi, s[mi])
-		s[mi] = s[mi] + t.W[i]
+		s[mi] = s[mi] + t[i]
 	}
 	ma := max(s, nmac)
 	return ma
